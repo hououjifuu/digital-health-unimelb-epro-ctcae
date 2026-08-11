@@ -4,7 +4,7 @@ An interactive, dual-portal digital health prototype exploring electronic patien
 
 ## Live prototype
 
-[Open the private deployed prototype](https://vela-epro-ctcae.limengyuanww.chatgpt.site)
+[Open the deployed prototype](https://digital-health-unimelb-epro-ctcae.limengyuanww.chatgpt.site)
 
 ## Prototype experience
 
