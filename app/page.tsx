@@ -52,8 +52,8 @@ export default function Home() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <button className="brand" onClick={() => setPortal("patient")} aria-label="Vela Health home">
-          <span className="brand-mark">V</span><span>Vela<span className="brand-light"> Health</span></span>
+        <button className="brand" onClick={() => setPortal("patient")} aria-label="Digital Health UniMelb home">
+          <span className="brand-mark">DH</span><span>Digital Health<span className="brand-light"> UniMelb</span></span>
         </button>
         <nav className="portal-switch" aria-label="Choose portal">
           <button className={portal === "patient" ? "active" : ""} onClick={() => setPortal("patient")}>Patient view</button>
@@ -116,7 +116,7 @@ export default function Home() {
       ) : (
         <section className="clinician-layout">
           <aside className="clinician-sidebar">
-            <div className="workspace-name"><div className="clinic-mark">VH</div><div><strong>Vela Oncology</strong><span>Clinical workspace</span></div></div>
+            <div className="workspace-name"><div className="clinic-mark">DH</div><div><strong>Digital Health UniMelb</strong><span>Clinical workspace</span></div></div>
             <nav className="side-nav"><button className="active">▦ Overview <span>2</span></button><button>♙ Patients</button><button>◫ Check-ins</button><button>⚑ Alerts <span>2</span></button><button>⌁ Analytics</button></nav>
             <div className="clinician-profile"><div className="avatar navy">EC</div><div><strong>Dr. Emily Chen</strong><span>Medical Oncology</span></div><button>•••</button></div>
           </aside>
@@ -141,7 +141,7 @@ export default function Home() {
               </div>
               <aside className="detail-card">
                 <div className="detail-person"><div className={`large-avatar ${selected.color}`}>{selected.initials}</div><div><h2>{selected.name}</h2><p>{selected.id} · Breast cancer</p></div><button>•••</button></div>
-                <div className="detail-meta"><div><span>PROTOCOL</span><strong>VELA-BC-04</strong></div><div><span>CYCLE</span><strong>{selected.regimen}</strong></div></div>
+                <div className="detail-meta"><div><span>PROTOCOL</span><strong>DHU-BC-04</strong></div><div><span>CYCLE</span><strong>{selected.regimen}</strong></div></div>
                 <div className={`alert-box ${alertAcknowledged ? "acknowledged" : ""}`}><div className="alert-top"><span>{alertAcknowledged ? "✓" : "!"}</span><div><strong>{alertAcknowledged ? "Alert acknowledged" : "Clinical review suggested"}</strong><small>Rule-based prototype signal</small></div></div><p>{selected.issue} was reported above the configured review threshold.</p><button onClick={() => { setAlertAcknowledged(true); notify("Alert acknowledged"); }}>{alertAcknowledged ? "Acknowledged" : "Acknowledge alert"}</button></div>
                 <div className="trend-head"><div><h3>Symptom trend</h3><p>Patient-reported severity · 6 weeks</p></div><select aria-label="Choose symptom"><option>Fatigue</option><option>Nausea</option><option>Pain</option></select></div>
                 <div className="chart" aria-label="Fatigue severity trend from mild to severe over six weeks"><div className="chart-labels"><span>Very severe</span><span>Severe</span><span>Moderate</span><span>Mild</span><span>None</span></div><div className="chart-area"><div className="grid-lines"><i/><i/><i/><i/><i/></div><div className="trend-line"><b style={{left:"2%",bottom:"18%"}}/><b style={{left:"20%",bottom:"26%"}}/><b style={{left:"39%",bottom:"42%"}}/><b style={{left:"58%",bottom:"39%"}}/><b style={{left:"77%",bottom:"62%"}}/><b style={{left:"96%",bottom:"78%"}}/></div><div className="dates"><span>8 Jul</span><span>15 Jul</span><span>22 Jul</span><span>29 Jul</span><span>5 Aug</span><span>12 Aug</span></div></div></div>

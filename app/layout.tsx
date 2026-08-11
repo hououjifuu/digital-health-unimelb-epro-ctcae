@@ -12,10 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const imageUrl = `${protocol}://${host}/og.png`;
   return {
-    title: "Vela Health | ePRO-CTCAE Prototype",
+    title: "Digital Health UniMelb | ePRO-CTCAE Prototype",
     description: "A dual-portal prototype for patient symptom reporting and oncology care-team review.",
-    openGraph: { title: "Vela Health", description: "ePRO-CTCAE, thoughtfully connected.", images: [imageUrl] },
-    twitter: { card: "summary_large_image", title: "Vela Health", description: "ePRO-CTCAE, thoughtfully connected.", images: [imageUrl] },
+    openGraph: { title: "Digital Health UniMelb", description: "ePRO-CTCAE, thoughtfully connected.", images: [imageUrl] },
+    twitter: { card: "summary_large_image", title: "Digital Health UniMelb", description: "ePRO-CTCAE, thoughtfully connected.", images: [imageUrl] },
   };
 }
 
