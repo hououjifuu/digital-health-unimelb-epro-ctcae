@@ -25,6 +25,7 @@ export default function Home() {
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [submitted, setSubmitted] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(0);
+  const [careView, setCareView] = useState<"dashboard" | "patient">("dashboard");
   const [alertAcknowledged, setAlertAcknowledged] = useState(false);
   const [toast, setToast] = useState("");
 
@@ -114,41 +115,40 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        <section className="clinician-layout">
-          <aside className="clinician-sidebar">
-            <div className="workspace-name"><div className="clinic-mark">DH</div><div><strong>Digital Health UniMelb</strong><span>Clinical workspace</span></div></div>
-            <nav className="side-nav"><button className="active">▦ Overview <span>2</span></button><button>♙ Patients</button><button>◫ Check-ins</button><button>⚑ Alerts <span>2</span></button><button>⌁ Analytics</button></nav>
-            <div className="clinician-profile"><div className="avatar navy">EC</div><div><strong>Dr. Emily Chen</strong><span>Medical Oncology</span></div><button>•••</button></div>
+        <section className="clinician-layout dh-console">
+          <aside className="clinician-sidebar dh-sidebar">
+            <div className="workspace-name"><div className="clinic-mark">DH</div><div><strong>Digital Health</strong></div></div>
+            <p className="console-label">CONSOLE</p>
+            <nav className="side-nav dh-nav"><button className={careView === "dashboard" ? "active" : ""} onClick={() => setCareView("dashboard")}>▦ Dashboard</button><button className={careView === "patient" ? "active" : ""} onClick={() => setCareView("patient")}>♙ Patients</button><button>△ Alerts</button><button>▤ Questionnaires</button><button>▱ Protocols</button><button>⌁ Reports</button><button>◷ Audit log</button><button>☼ Settings</button></nav>
+            <div className="clinician-profile"><div className="avatar">MA</div><div><strong>Dr. Chen</strong><span>Surgical Oncology</span></div></div>
           </aside>
-          <div className="clinician-main">
-            <div className="dashboard-head"><div><p className="eyebrow">TUESDAY, 12 AUGUST</p><h1>Good morning, Dr. Chen.</h1><p>Here’s what needs your attention across your patient cohort.</p></div><button className="outline-button" onClick={() => notify("Report prepared for export")}>⇩ Export report</button></div>
-            <div className="metric-row">
-              <div className="metric-card alert"><span>URGENT ALERTS</span><strong>2</strong><p>1 new since yesterday</p><i>!</i></div>
-              <div className="metric-card"><span>CHECK-INS DUE</span><strong>7</strong><p>3 completed today</p><i>↗</i></div>
-              <div className="metric-card"><span>RESPONSE RATE</span><strong>91%</strong><p>Past 7 days</p><i>◎</i></div>
-              <div className="metric-card"><span>ACTIVE PATIENTS</span><strong>24</strong><p>Across 4 protocols</p><i>♙</i></div>
-            </div>
-            <div className="dashboard-grid">
-              <div className="cohort-card">
-                <div className="card-title"><div><h2>Patient overview</h2><p>Sorted by clinical attention score</p></div><div className="filter-pills"><button className="active">All</button><button>Alerts</button><button>Due</button></div></div>
-                <div className="patient-table">
-                  <div className="table-head"><span>PATIENT</span><span>STATUS</span><span>LATEST SIGNAL</span><span>LAST CHECK-IN</span></div>
-                  {patients.map((patient, index) => <button key={patient.id} className={`patient-row ${selectedPatient === index ? "selected" : ""}`} onClick={() => { setSelectedPatient(index); setAlertAcknowledged(false); }}>
-                    <span className="patient-cell"><i className={`mini-avatar ${patient.color}`}>{patient.initials}</i><span><strong>{patient.name}</strong><small>{patient.id} · {patient.regimen}</small></span></span>
-                    <span><em className={`risk ${patient.risk.toLowerCase()}`}>{patient.risk}</em></span><span><strong>{patient.issue}</strong><small>Attention score {patient.score}</small></span><span>{patient.time}<b>›</b></span>
-                  </button>)}
+          <div className="care-workspace">
+            <div className="care-top"><label><span>⌕</span><input aria-label="Search patients" placeholder="Search patients, IDs, protocols..." /></label><div className="care-top-actions"><button>♧<i /></button><div className="avatar">MA</div></div></div>
+            {careView === "dashboard" ? <div className="care-page">
+              <div className="care-grid">
+                <div className="care-primary">
+                  <div className="dashboard-head"><div><p className="eyebrow">TUESDAY, 12 AUGUST</p><h1>Good morning, Dr. Chen.</h1><p>Here&apos;s what needs your attention across your patient cohort.</p></div></div>
+                  <div className="metric-row">
+                    <div className="metric-card alert"><span>Urgent alerts</span><strong>2</strong><p>1 new since yesterday</p><i>!</i></div><div className="metric-card"><span>Check-ins due</span><strong>7</strong><p>3 completed today</p><i>◷</i></div><div className="metric-card"><span>Response rate</span><strong>91%</strong><p>Past 7 days</p><i>⌁</i></div><div className="metric-card"><span>Active patients</span><strong>24</strong><p>Across 4 protocols</p><i>♙</i></div>
+                  </div>
+                  <div className="cohort-card redesigned-table"><div className="card-title"><div><h2>Patient overview</h2><p>Sorted by clinical attention score</p></div><div className="filter-pills"><button className="active">All</button><button>Alerts</button><button>Due</button></div></div>
+                    <div className="new-table-head"><span>PATIENT</span><span>LAST CHECK-IN</span><span>TOP SYMPTOM</span><span>TREND</span><span>STATUS</span><span /></div>
+                    {patients.map((p,index)=><button className={`new-patient-row ${p.risk.toLowerCase()}`} key={p.id} onClick={()=>{setSelectedPatient(index);setCareView("patient");}}><span className="patient-cell"><i className={`mini-avatar ${p.color}`}>{p.initials}</i><span><strong>{p.name}</strong><small>{p.id} · {p.regimen}</small></span></span><span>{p.time}</span><span><strong>{p.issue}</strong><small>{p.risk === "High" ? "Severe · worsening" : p.risk === "Review" ? "Moderate · rising" : "Mild · steady"}</small></span><span className={`spark ${p.color}`}>⌁</span><span><em className={`risk ${p.risk.toLowerCase()}`}>{p.risk}</em></span><span className="view-link">View</span></button>)}
+                  </div>
                 </div>
-              </div>
-              <aside className="detail-card">
-                <div className="detail-person"><div className={`large-avatar ${selected.color}`}>{selected.initials}</div><div><h2>{selected.name}</h2><p>{selected.id} · Breast cancer</p></div><button>•••</button></div>
-                <div className="detail-meta"><div><span>PROTOCOL</span><strong>DHU-BC-04</strong></div><div><span>CYCLE</span><strong>{selected.regimen}</strong></div></div>
-                <div className={`alert-box ${alertAcknowledged ? "acknowledged" : ""}`}><div className="alert-top"><span>{alertAcknowledged ? "✓" : "!"}</span><div><strong>{alertAcknowledged ? "Alert acknowledged" : "Clinical review suggested"}</strong><small>Rule-based prototype signal</small></div></div><p>{selected.issue} was reported above the configured review threshold.</p><button onClick={() => { setAlertAcknowledged(true); notify("Alert acknowledged"); }}>{alertAcknowledged ? "Acknowledged" : "Acknowledge alert"}</button></div>
-                <div className="trend-head"><div><h3>Symptom trend</h3><p>Patient-reported severity · 6 weeks</p></div><select aria-label="Choose symptom"><option>Fatigue</option><option>Nausea</option><option>Pain</option></select></div>
-                <div className="chart" aria-label="Fatigue severity trend from mild to severe over six weeks"><div className="chart-labels"><span>Very severe</span><span>Severe</span><span>Moderate</span><span>Mild</span><span>None</span></div><div className="chart-area"><div className="grid-lines"><i/><i/><i/><i/><i/></div><div className="trend-line"><b style={{left:"2%",bottom:"18%"}}/><b style={{left:"20%",bottom:"26%"}}/><b style={{left:"39%",bottom:"42%"}}/><b style={{left:"58%",bottom:"39%"}}/><b style={{left:"77%",bottom:"62%"}}/><b style={{left:"96%",bottom:"78%"}}/></div><div className="dates"><span>8 Jul</span><span>15 Jul</span><span>22 Jul</span><span>29 Jul</span><span>5 Aug</span><span>12 Aug</span></div></div></div>
-                <button className="secondary-button full" onClick={() => notify("Opening complete patient record")}>View full patient record →</button>
-              </aside>
-            </div>
-            <p className="prototype-note">Prototype only · Signals are not CTCAE grades and must not replace clinical assessment.</p>
+                <aside className="care-rail"><section><div className="rail-title"><span>NEEDS REVIEW</span><em>2 active</em></div><div className="review-item"><strong>Maya Anderson</strong><time>40 min ago</time><p>Diarrhoea reported as <b>severe</b> — above protocol threshold.</p><button onClick={()=>notify("Calling patient")}>Call patient</button><button className="ghost" onClick={()=>{setSelectedPatient(0);setCareView("patient")}}>Open report</button></div><div className="review-item"><strong>James Liu</strong><time>Yesterday</time><p>Nausea rising for three consecutive check-ins; review suggested.</p><button className="ghost" onClick={()=>{setSelectedPatient(1);setCareView("patient")}}>Open report</button></div></section>
+                  <section><div className="rail-title"><span>CHECK-INS DUE TODAY</span></div>{[["TW","Thomas Ward","10:00"],["AP","Aisha Patel","13:30"],["GC","Grace Cho","16:15"]].map(x=><div className="due-row" key={x[1]}><i>{x[0]}</i><span><strong>{x[1]}</strong><small>Weekly PRO</small></span><time>{x[2]}</time></div>)}<button className="rail-link">View all 7 due</button></section>
+                  <section><div className="rail-title"><span>COHORT SYMPTOMS</span></div><p className="rail-sub">Reported at any grade, past 7 days</p>{[["Fatigue",14,78],["Nausea",9,52],["Pain (incision)",7,40],["Diarrhoea",4,24]].map(x=><div className="symptom-bar" key={x[0] as string}><span>{x[0]}<small>{x[1]} patients</small></span><i><b style={{width:`${x[2]}%`}} /></i></div>)}</section></aside>
+              </div><p className="prototype-note">PRO-CTCAE data is patient-reported and not a substitute for clinical assessment.</p>
+            </div> : <div className="care-page patient-detail-page">
+              <button className="back-link" onClick={()=>setCareView("dashboard")}>← Patients / <strong>{selected.name}</strong></button>
+              <section className="patient-hero"><div className={`large-avatar ${selected.color}`}>{selected.initials}</div><div><h1>{selected.name} <em className={`risk ${selected.risk.toLowerCase()}`}>{selected.risk}</em></h1><p>{selected.id} · 54F · Day 8 post-op · Protocol: Colorectal 12-month</p></div><div className="hero-stat"><span>ATTENTION SCORE</span><strong>{selected.score}</strong></div><div className="hero-stat"><span>LAST CHECK-IN</span><strong>2h ago</strong></div><div className="hero-stat"><span>RESPONSE RATE</span><strong>100%</strong></div><button className="primary-button" onClick={()=>notify("Patient contact opened")}>Contact patient</button></section>
+              <div className="detail-dashboard"><section className="trajectory-card"><div className="card-title"><div><h2>Symptom trajectory</h2><p>PRO-CTCAE severity, post-operative days</p></div><div className="filter-pills"><button>7 days</button><button className="active">14 days</button><button>All</button></div></div><div className="trajectory-chart"><div className="expected-range"/><div className="line pain-line"/><div className="line fatigue-line"/><div className="line nausea-line"/><span className="today-dot">Today</span></div><div className="chart-legend"><span className="pain">— Pain</span><span className="fatigue">— Fatigue</span><span className="nausea">— Nausea</span><b>Pain above expected range since Day 6</b></div></section>
+                <section className="flag-card"><h2>Why this patient is flagged</h2><div className="rule-box"><b>RULE</b><strong>{selected.issue} reported — Day 8</strong><p>Source: PRO-CTCAE item library + local protocol.</p></div><div className="model-box"><b>MODEL</b><strong>Deterioration risk: 0.72 <small>(elevated)</small></strong><i><span /></i><p>Model output is advisory and does not override clinical judgement.</p></div></section>
+                <section className="responses-card"><div className="card-title"><div><h2>Latest responses</h2><p>PRO-CTCAE · submitted today, 08:14</p></div></div><div className="response-head"><span>SYMPTOM</span><span>FREQUENCY</span><span>SEVERITY</span><span>INTERFERENCE</span><span>CHANGE</span></div>{[["Pain (incision site)","Frequently","Severe","Quite a bit","▲ +1"],["Fatigue","Almost constantly","Moderate","Somewhat","▲ +1"],["Nausea","Occasionally","Mild","A little bit","■"],["Wound discharge","Yes — reported","—","—","▲ new"]].map(r=><div className="response-row" key={r[0]}>{r.map((v,i)=><span key={i}>{v}</span>)}</div>)}<blockquote>“The pain around the incision has been keeping me awake. This morning there was some yellowish fluid on the dressing.”</blockquote></section>
+                <aside className="actions-card"><h2>Care actions</h2><button className="primary-button" onClick={()=>{setAlertAcknowledged(true);notify("Alert acknowledged")}}>{alertAcknowledged ? "Alert acknowledged" : "Acknowledge alert"}</button><button onClick={()=>notify("Review call scheduled")}>Schedule review call</button><button onClick={()=>notify("Message composer opened")}>Send patient message</button><button className="danger" onClick={()=>notify("Escalated to team")}>Escalate to team</button></aside>
+              </div><p className="prototype-note">Prototype only · Signals are not CTCAE grades and must not replace clinical assessment.</p>
+            </div>}
           </div>
         </section>
       )}
