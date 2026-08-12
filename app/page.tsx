@@ -52,7 +52,7 @@ export default function Home() {
 
   return (
     <main className="app-shell">
-      <header className="topbar">
+      <header className={`topbar ${portal === "clinician" ? "care-mode" : ""}`}>
         <button className="brand" onClick={() => setPortal("patient")} aria-label="Digital Health UniMelb home">
           <span className="brand-mark">DH</span><span>Digital Health<span className="brand-light"> UniMelb</span></span>
         </button>
@@ -123,7 +123,7 @@ export default function Home() {
             <div className="clinician-profile"><div className="avatar">MA</div><div><strong>Dr. Chen</strong><span>Surgical Oncology</span></div></div>
           </aside>
           <div className="care-workspace">
-            <div className="care-top"><label><span>⌕</span><input aria-label="Search patients" placeholder="Search patients, IDs, protocols..." /></label><div className="care-top-actions"><button>♧<i /></button><div className="avatar">MA</div></div></div>
+            <div className="care-top"><label><span>⌕</span><input aria-label="Search patients" placeholder="Search patients, IDs, protocols..." /></label><div className="care-top-right"><nav className="care-view-tabs" aria-label="Choose portal"><button onClick={() => setPortal("patient")}>Patient view</button><button className="active">Care team</button></nav><div className="care-top-actions"><button>♧<i /></button><div className="avatar">MA</div></div></div></div>
             {careView === "dashboard" ? <div className="care-page">
               <div className="care-grid">
                 <div className="care-primary">
