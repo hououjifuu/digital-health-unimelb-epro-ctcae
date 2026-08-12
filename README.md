@@ -4,7 +4,7 @@ An interactive, dual-portal digital health prototype exploring electronic patien
 
 ## Live prototype
 
-[Open the deployed prototype](https://digital-health-unimelb-epro-ctcae.limengyuanww.chatgpt.site)
+[Open the public GitHub Pages prototype](https://hououjifuu.github.io/digital-health-unimelb-epro-ctcae/)
 
 ## Prototype experience
 
@@ -42,6 +42,8 @@ Build the deployment bundle with:
 ```bash
 pnpm run build
 ```
+
+The GitHub Pages bundle is generated with `pnpm run build:pages` and published from the repository's `docs/` directory.
 
 ## Technology
 
