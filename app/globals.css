@@ -10,9 +10,9 @@ button { color:inherit; }
 .brand { border:0; background:none; display:flex; align-items:center; gap:10px; font-size:19px; font-weight:800; letter-spacing:-.4px; cursor:pointer; }
 .brand-mark { width:38px; height:34px; display:grid; place-items:center; border-radius:11px 11px 11px 3px; color:#fff; background:var(--teal); font-size:11px; letter-spacing:-.4px; }
 .brand-light { font-weight:400; }
-.portal-switch { position:absolute; left:50%; transform:translateX(-50%); background:#f1f4f2; padding:4px; border-radius:10px; display:flex; }
-.portal-switch button { border:0; padding:9px 18px; border-radius:7px; background:transparent; font-size:13px; font-weight:700; cursor:pointer; color:#71808b; }
-.portal-switch button.active { background:#fff; color:var(--ink); box-shadow:0 2px 8px #17324d14; }
+.portal-switch { position:static; margin-left:auto; margin-right:18px; background:#f0f3f2; padding:4px; border-radius:10px; display:flex; }
+.portal-switch button { border:0; padding:10px 17px; border-radius:8px; background:transparent; font-size:13px; font-weight:700; cursor:pointer; color:#74848a; }
+.portal-switch button.active { background:#fff; color:var(--ink); box-shadow:0 2px 7px #17324d1a; }
 .top-actions { display:flex; align-items:center; gap:13px; }.icon-button { border:1px solid var(--line); background:#fff; border-radius:50%; width:34px; height:34px; font-weight:700; }.avatar { width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#dbeeea;color:var(--teal);font-size:12px;font-weight:800; }
 .eyebrow,.overline { font-size:11px; letter-spacing:1.8px; font-weight:800; color:#789; margin:0 0 12px; }.eyebrow.teal,.overline { color:var(--teal); }.muted { color:var(--muted); line-height:1.55; }
 .patient-layout { min-height:calc(100vh - 72px); display:grid; grid-template-columns:330px 1fr; }
