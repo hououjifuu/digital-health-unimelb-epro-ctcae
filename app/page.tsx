@@ -52,7 +52,7 @@ export default function Home() {
 
   return (
     <main className="app-shell">
-      <header className={`topbar ${portal === "clinician" ? "care-mode" : ""}`}>
+      <header className="topbar shared-header">
         <button className="brand" onClick={() => setPortal("patient")} aria-label="Digital Health UniMelb home">
           <span className="brand-mark">DH</span><span>Digital Health<span className="brand-light"> UniMelb</span></span>
         </button>
@@ -60,7 +60,7 @@ export default function Home() {
           <button className={portal === "patient" ? "active" : ""} onClick={() => setPortal("patient")}>Patient view</button>
           <button className={portal === "clinician" ? "active" : ""} onClick={() => setPortal("clinician")}>Care team</button>
         </nav>
-        <div className="top-actions"><button className="icon-button" aria-label="Help">?</button><div className="avatar">MA</div></div>
+        <div className="top-actions"><button className="icon-button" aria-label={portal === "clinician" ? "Notifications" : "Help"}>{portal === "clinician" ? "♧" : "?"}</button><div className="avatar">MA</div></div>
       </header>
 
       {portal === "patient" ? (
@@ -117,13 +117,12 @@ export default function Home() {
       ) : (
         <section className="clinician-layout dh-console">
           <aside className="clinician-sidebar dh-sidebar">
-            <div className="workspace-name"><div className="clinic-mark">DH</div><div><strong>Digital Health</strong></div></div>
             <p className="console-label">CONSOLE</p>
             <nav className="side-nav dh-nav"><button className={careView === "dashboard" ? "active" : ""} onClick={() => setCareView("dashboard")}>▦ Dashboard</button><button className={careView === "patient" ? "active" : ""} onClick={() => setCareView("patient")}>♙ Patients</button><button>△ Alerts</button><button>▤ Questionnaires</button><button>▱ Protocols</button><button>⌁ Reports</button><button>◷ Audit log</button><button>☼ Settings</button></nav>
             <div className="clinician-profile"><div className="avatar">MA</div><div><strong>Dr. Chen</strong><span>Surgical Oncology</span></div></div>
           </aside>
           <div className="care-workspace">
-            <div className="care-top"><label><span>⌕</span><input aria-label="Search patients" placeholder="Search patients, IDs, protocols..." /></label><div className="care-top-right"><nav className="care-view-tabs" aria-label="Choose portal"><button onClick={() => setPortal("patient")}>Patient view</button><button className="active">Care team</button></nav><div className="care-top-actions"><button>♧<i /></button><div className="avatar">MA</div></div></div></div>
+            <div className="care-top"><label><span>⌕</span><input aria-label="Search patients" placeholder="Search patients, IDs, protocols..." /></label></div>
             {careView === "dashboard" ? <div className="care-page">
               <div className="care-grid">
                 <div className="care-primary">
